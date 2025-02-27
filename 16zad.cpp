@@ -10,25 +10,27 @@ int main() {
     cout << "Введите количество птенцов: ";
     cin >> N;
 
-    vector<string> colors(N); // Массив цветов птенцов
-    vector<int> sizes(N);     // Массив размеров птенцов
-    vector<int> numbers(N, 0); // Массив номеров птенцов (изначально 0)
+    // Векторы для хранения данных о птенцах: цвет, размер, номер
+    vector<string> colors(N);
+    vector<int> sizes(N);
+    vector<int> numbers(N, 0); // Изначально у всех номер 0
 
+    // Ввод данных о каждом птенце
     cout << "Введите цвет и размер каждого птенца (цвет размер):" << endl;
     for (int i = 0; i < N; ++i) {
         cin >> colors[i] >> sizes[i];
     }
 
-    // Создаем массив индексов для сортировки
+    // Вектор индексов для сортировки
     vector<int> indices(N);
     for (int i = 0; i < N; ++i) {
         indices[i] = i;
     }
 
-    // Сортировка индексов по размеру (убывание), затем по цвету (возрастание)
+    // Сортируем птенцов: сначала по убыванию размера, затем по алфавиту цвета
     sort(indices.begin(), indices.end(), [&](int a, int b) {
-        if (sizes[a] != sizes[b]) return sizes[a] > sizes[b]; // Убывание по размеру
-        return colors[a] < colors[b];                        // Возрастание по цвету
+        if (sizes[a] != sizes[b]) return sizes[a] > sizes[b]; // Сначала сортируем по размеру (по убыванию)
+        return colors[a] < colors[b]; // Если размеры одинаковые, сортируем по цвету (по алфавиту)
     });
 
     // Присваивание номеров
@@ -36,21 +38,21 @@ int main() {
     for (size_t i = 0; i < indices.size(); ++i) {
         int idx = indices[i];
 
-        // Если это не первый птенец и размер совпадает с предыдущим
+        // Если текущий птенец имеет такой же размер, как предыдущий, то номер тот же
         if (i > 0 && sizes[indices[i]] == sizes[indices[i - 1]]) {
-            numbers[idx] = numbers[indices[i - 1]]; // Одинаковый номер
+            numbers[idx] = numbers[indices[i - 1]];
         } else {
-            numbers[idx] = currentNumber; // Новый номер
+            numbers[idx] = currentNumber;
         }
         ++currentNumber;
 
-        // Учитываем условие для красного птенца
+        // Если птенец красный, его номер не может быть меньше 3
         if (colors[idx] == "red" && numbers[idx] < 3) {
-            numbers[idx] = 3; // Красный птенец не может иметь номер менее 3
+            numbers[idx] = 3;
         }
     }
 
-    // Корректировка для птенца с номером 4 (разный цвет)
+    // Дополнительная корректировка: если у двух птенцов с номером 4 одинаковый цвет, увеличиваем номер
     for (size_t i = 0; i < N; ++i) {
         if (numbers[indices[i]] == 4) {
             bool hasSameColor = false;
@@ -61,12 +63,10 @@ int main() {
                 }
             }
             if (hasSameColor) {
-                numbers[indices[i]]++; // Увеличиваем номер
+                numbers[indices[i]]++;
             }
         }
     }
-
-    // Вывод результата
     cout << "Птенцы с номерами:" << endl;
     for (size_t i = 0; i < N; ++i) {
         cout << "Цвет: " << colors[i] << ", Размер: " << sizes[i] << ", Номер: " << numbers[i] << endl;
