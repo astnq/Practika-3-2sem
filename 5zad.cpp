@@ -2,15 +2,17 @@
 #include <string>
 #include <algorithm>
 
+using namespace std;
+
 bool is_palindrome(const std::string& s) {
-    return std::equal(s.begin(), s.begin() + s.size() / 2, s.rbegin());
+    return equal(s.begin(), s.begin() + s.size() / 2, s.rbegin());
 }
 
 int main() {
-    std::string word;
-    std::cout << "Введите слово: ";
-    std::cin >> word;
-    std::cout << (is_palindrome(word) ? "Палиндром!" : "Не палиндром.") << std::endl;
+    string word;
+    cout << "Введите слово: ";
+    cin >> word;
+    cout << (is_palindrome(word) ? "Палиндром!" : "Не палиндром.") << endl;
     return 0;
 }
-//(Мадам, Казак, Шалаш)
+//Примеры(Мадам, Казак, Шалаш)
