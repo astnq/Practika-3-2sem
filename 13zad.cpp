@@ -6,19 +6,21 @@
 using namespace std;
 
 struct Student {
-    string surname;
-    string group;
-    int score;
+    string surname;  // Фамилия студента
+    string group;    // Группа студента
+    int score;       // Баллы за экзамен
 };
 
 int main() {
-    system ("chcp 65001");
+    system("chcp 65001"); 
+
     int N;
     cout << "Введите количество студентов: ";
     cin >> N;
-    cin.ignore(); // Удаляем символ новой строки из буфера ввода
+    cin.ignore(); 
 
-    vector<Student> students(N);
+    vector<Student> students(N); // Создаём вектор студентов
+
     int minScore;
     cout << "Введите минимальное количество баллов для сдачи экзамена: ";
     cin >> minScore;
@@ -27,11 +29,12 @@ int main() {
     cout << "Введите информацию о каждом студенте (фамилия, группа, баллы):\n";
     for (int i = 0; i < N; ++i) {
         string line;
-        getline(cin, line);
-        stringstream ss(line);
+        getline(cin, line); // Считываем всю строку
+        stringstream ss(line); // Используем stringstream для разбора строки
         ss >> students[i].surname >> students[i].group >> students[i].score;
     }
 
+    // Вывод результатов экзамена
     cout << "\nРезультаты экзамена по математическому анализу:\n";
     for (const Student& student : students) {
         if (student.score >= minScore) {
